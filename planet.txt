@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Cosmic Portal</title>
+    <style>
+        :root {
+            --space-bg: radial-gradient(circle at center, #1b003a 0%, #050014 70%, #000000 100%);
+            --magic-purple: #9d4edd;
+            --magic-glow: #e0aaff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--space-bg);
+            color: #fff;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* --- Twinkling Stars Background --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 1;
+            pointer-events: none;
+            animation: twinkle 100s linear infinite;
+        }
+
+        @keyframes twinkle {
+            from { background-position: 0 0; }
+            to { background-position: 10000px 5000px; }
+        }
+
+        /* --- Hidden States --- */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==========================================================================
+           1. LOGIN PORTAL
+           ========================================================================== */
+        #login-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: rgba(15, 5, 30, 0.75);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.4), inset 0 0 15px rgba(224, 170, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 350px;
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: var(--magic-glow);
+            text-shadow: 0 0 10px var(--magic-purple);
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--magic-purple);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .role-btn.active, .role-btn:hover {
+            background: var(--magic-purple);
+            box-shadow: 0 0 15px var(--magic-glow);
+            transform: scale(1.05);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--magic-glow);
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--magic-glow);
+            box-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #7b2cbf, #9d4edd);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(123, 44, 191, 0.4);
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 0 25px var(--magic-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           2. GALAXY & SYSTEM VIEW
+           ========================================================================== */
+        #universe-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* View 1: Milky Way Spiral */
+        .milky-way-view {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .galaxy-trigger {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(157,78,221,0.6) 30%, rgba(60,9,108,0.3) 60%, transparent 70%);
+            box-shadow: 0 0 60px rgba(224,170,255,0.4);
+            cursor: pointer;
+            position: relative;
+            animation: spin 40s linear infinite;
+            transition: transform 0.5s;
+        }
+
+        .galaxy-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(224,170,255,0.8);
+        }
+
+        .galaxy-trigger::before {
+            content: 'HOVER TO ZOOM INTO GALAXY';
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 8px #000;
+            font-size: 0.9rem;
+            animation: anti-spin 40s linear infinite;
+        }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes anti-spin { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        /* View 2: Solar System View */
+        .solar-system-view {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 100%; /* Positioned directly underneath for structural transition */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .system-map {
+            position: relative;
+            width: 900px;
+            height: 600px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .sun {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #fff 0%, #ff9e00 50%, #ff6200 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #ff9e00;
+        }
+
+        /* Planets Framework */
+        .planet-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .planet-container:hover {
+            transform: scale(1.2);
+        }
+
+        .planet {
+            border-radius: 50%;
+            margin-bottom: 10px;
+            box-shadow: inset -10px -10px 15px rgba(0,0,0,0.6);
+        }
+
+        /* Unique Planet Looks */
+        .earth { width: 50px; height: 50px; background: radial-gradient(circle at 30% 30%, #4cc9f0, #4895ef, #3f37c9); box-shadow: 0 0 15px rgba(76,201,240,0.5); }
+        .mars { width: 40px; height: 40px; background: radial-gradient(circle at 30% 30%, #f77f00, #d62828, #780000); box-shadow: 0 0 15px rgba(247,127,0,0.5); }
+        .jupiter { width: 85px; height: 85px; background: repeating-linear-gradient(45deg, #eae2b7, #e85d04 10%, #f77f00 20%, #eae2b7 30%); }
+        .saturn { width: 70px; height: 70px; background: radial-gradient(circle at 30% 30%, #e9d8a6, #ee9b00); position: relative; }
+        /* Saturn Ring */
+        .saturn::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 110px; height: 15px;
+            border: 4px solid rgba(233, 216, 166, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+        }
+
+        .planet-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--magic-glow);
+        }
+
+        /* Welcome tag inside universe */
+        .user-greeting {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--magic-purple);
+            backdrop-filter: blur(5px);
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--magic-purple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--magic-purple); }
+
+        /* ==========================================================================
+           3. DATA DISPLAY PANEL (Facts & Mysteries)
+           ========================================================================== */
+        #info-panel {
+            position: fixed;
+            bottom: -400px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 900px;
+            background: rgba(10, 3, 22, 0.9);
+            border: 2px solid var(--magic-purple);
+            border-radius: 20px 20px 0 0;
+            padding: 25px;
+            box-shadow: 0 -10px 40px rgba(157, 78, 221, 0.5);
+            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        #info-panel.active {
+            bottom: 0;
+        }
+
+        .info-col h3 {
+            margin-top: 0;
+            color: #e0aaff;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.4);
+            padding-bottom: 8px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-col ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .info-col li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #f0edf5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div id="login-container">
+        <div class="login-box">
+            <h2 id="portal-title">Cosmic Portal</h2>
+            
+            <div class="role-selector">
+                <button type="button" class="role-btn active" onclick="setRole('Student')">Student</button>
+                <button type="button" class="role-btn" onclick="setRole('Teacher')">Teacher</button>
+                <button type="button" class="role-btn" onclick="setRole('Admin')">Admin</button>
+            </div>
+
+            <form id="spaceLoginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="username">Explorer Username</label>
+                    <input type="text" id="username" required placeholder="Enter cosmic alias...">
+                </div>
+                <div class="input-group">
+                    <label for="email">Interstellar Email</label>
+                    <input type="email" id="email" required placeholder="name@galaxy.com">
+                </div>
+                <div class="input-group">
+                    <label for="password">Security Matrix Key</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn">Launch Into Space</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="universe-container" class="hidden">
+        <div class="user-greeting">Welcome, <span id="display-user" style="color:#e0aaff;"></span> (<span id="display-role" style="font-size:0.8rem; text-transform:uppercase;"></span>)</div>
+        <button class="back-btn" onclick="resetToGalaxy()">🌌 Zoom Out</button>
+
+        <div class="milky-way-view" id="milky-way-screen">
+            <div class="galaxy-trigger" onmouseover="zoomToSolarSystem()"></div>
+        </div>
+
+        <div class="solar-system-view" id="solar-system-screen">
+            <div class="system-map">
+                <div class="sun"></div>
+                
+                <div class="planet-container" onmouseover="showPlanetData('earth')" onmouseout="hidePlanetData()">
+                    <div class="planet earth"></div>
+                    <div class="planet-name">Earth</div>
+                </div>
+
+                <div class="planet-container" onmouseover="showPlanetData('mars')" onmouseout="hidePlanetData()">
+                    <div class="planet mars"></div>
+                    <div class="planet-name">Mars</div>
+                </div>
+
+                <div class="planet-container" onmouseover="showPlanetData('jupiter')" onmouseout="hidePlanetData()">
+                    <div class="planet jupiter"></div>
+                    <div class="planet-name">Jupiter</div>
+                </div>
+
+                <div class="planet-container" onmouseover="showPlanetData('saturn')" onmouseout="hidePlanetData()">
+                    <div class="planet saturn"></div>
+                    <div class="planet-name">Saturn</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="info-panel">
+        <div class="info-col">
+            <h3 id="panel-planet-name-facts">Planet Facts</h3>
+            <ul id="facts-list"></ul>
+        </div>
+        <div class="info-col">
+            <h3>Cosmic Mysteries</h3>
+            <ul id="mysteries-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        let selectedRole = "Student";
+        
+        // Data Vault for Planets
+        const cosmicData = {
+            earth: {
+                name: "Earth",
+                facts: [
+                    "It is the only known planet hosting structural and organic life.",
+                    "Water covers roughly 70.8% of the planet's surface.",
+                    "Earth's atmosphere has the perfect composition for breathing (21% Oxygen).",
+                    "It races through space orbiting the sun at 67,000 miles per hour.",
+                    "It is the densest planet throughout our entire solar system."
+                ],
+                mysteries: [
+                    "Why is it called Earth? It is the only planet not named after a Mythological God.",
+                    "Where did all of its massive quantities of liquid water originally come from?",
+                    "What truly creates and stabilizes Earth's powerful magnetic shield deep inside its core?",
+                    "How did dynamic plate tectonics start uniquely on Earth?",
+                    "Are there hidden ancient life signatures buried beneath the deep crust?"
+                ]
+            },
+            mars: {
+                name: "Mars",
+                facts: [
+                    "Mars is heavily rich in iron oxide, giving it a characteristic red look.",
+                    "It features Olympus Mons, the largest volcano in the solar system.",
+                    "A Martian day (sol) lasts nearly identical to ours: 24 hours and 37 minutes.",
+                    "It possesses two tiny odd-shaped asteroid moons: Phobos and Deimos.",
+                    "Temperatures can plunge violently down to minus 225 degrees Fahrenheit."
+                ],
+                mysteries: [
+                    "Why does it look red? Iron rust blankets its topsoil, but why did it oxidize so deeply?",
+                    "Did a massive biological civilization or micro-organic life live here in ancient lakes?",
+                    "Where did its heavy, thick protective atmosphere vanish millions of years ago?",
+                    "Are the mysterious dark streaks moving down Martian hills real running liquid water?",
+                    "Why is the planet's northern hemisphere drastically smoother than the cratered south?"
+                ]
+            },
+            jupiter: {
+                name: "Jupiter",
+                facts: [
+                    "Jupiter is a gas giant twice as massive as all other planets combined.",
+                    "Its iconic Great Red Spot is a monstrous storm wider than Earth itself.",
+                    "It completes an incredibly fast full rotation spin in just 10 hours.",
+                    "Jupiter possesses a powerful shield of 95 officially recognized moons.",
+                    "Its magnetic pressure field is up to 14 times stronger than Earth's."
+                ],
+                mysteries: [
+                    "Why is it called Jupiter? Named after the King of Roman Gods due to its immense size.",
+                    "How deep down does its legendary 300-year-old Great Red Spot storm actually run?",
+                    "Is there a rocky solid diamond core hidden inside all that compressed metallic gas?",
+                    "Why does it beam out significantly more thermal radiation into space than it receives from the Sun?",
+                    "What mysterious force fuels its glowing, color-shifting violent atmospheric stripes?"
+                ]
+            },
+            saturn: {
+                name: "Saturn",
+                facts: [
+                    "Saturn's extensive ring system is made up of billions of chunks of pure water ice.",
+                    "It is the least dense planet; it would literally float inside a massive cosmic bathtub.",
+                    "Winds around Saturn's upper atmospheric layers reach an intense 1,100 mph.",
+                    "Its massive moon, Titan, holds dense liquid-methane lakes on its surface.",
+                    "It hosts a bizarre, permanent hexagon-shaped storm system on its North Pole."
+                ],
+                mysteries: [
+                    "Why does it look like it has golden ears? Galileo originally thought its rings were handles.",
+                    "How did its majestic, perfectly flat ring system form, and when will they disappear?",
+                    "What creates the perfectly geometric 6-sided Hexagon storm swirling at its North Pole?",
+                    "Is there a hot, thermal watery ocean capable of alien life inside its icy moon Enceladus?",
+                    "Why do its colors shift dynamically between bright blues and golden ochres over seasons?"
+                ]
+            }
+        };
+
+        function setRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('portal-title').innerText = `${role} Portal`;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            
+            // Populate Greeting details
+            document.getElementById('display-user').innerText = username;
+            document.getElementById('display-role').innerText = selectedRole;
+
+            // Magical Transition Out of Login
+            document.getElementById('login-container').style.transition = 'all 1s ease';
+            document.getElementById('login-container').style.opacity = '0';
+            document.getElementById('login-container').style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                document.getElementById('login-container').classList.add('hidden');
+                document.getElementById('universe-container').classList.remove('hidden');
+            }, 1000);
+        }
+
+        function zoomToSolarSystem() {
+            // Smooth zoom interpolation through Z-axis translation simulating space travel
+            const container = document.getElementById('universe-container');
+            container.style.transform = 'translateY(-100%) scale(1.1)';
+        }
+
+        function resetToGalaxy() {
+            const container = document.getElementById('universe-container');
+            container.style.transform = 'translateY(0%) scale(1)';
+            hidePlanetData();
+        }
+
+        function showPlanetData(planetKey) {
+            const data = cosmicData[planetKey];
+            document.getElementById('panel-planet-name-facts').innerText = `${data.name} Core Facts`;
+            
+            const factsList = document.getElementById('facts-list');
+            const mysteriesList = document.getElementById('mysteries-list');
+            
+            factsList.innerHTML = '';
+            mysteriesList.innerHTML = '';
+
+            data.facts.forEach(fact => {
+                let li = document.createElement('li');
+                li.innerText = fact;
+                factsList.appendChild(li);
+            });
+
+            data.mysteries.forEach(mystery => {
+                let li = document.createElement('li');
+                li.innerText = mystery;
+                mysteriesList.appendChild(li);
+            });
+
+            document.getElementById('info-panel').classList.add('active');
+        }
+
+        function hidePlanetData() {
+            document.getElementById('info-panel').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
