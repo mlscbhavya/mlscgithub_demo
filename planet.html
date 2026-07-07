@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Cosmic Portal</title>
+    <style>
+        :root {
+            --space-bg: radial-gradient(circle at center, #1b003a 0%, #050014 70%, #000000 100%);
+            --magic-purple: #9d4edd;
+            --magic-glow: #e0aaff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--space-bg);
+            color: #fff;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* --- Twinkling Stars Background --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 1;
+            pointer-events: none;
+            animation: twinkle 100s linear infinite;
+        }
+
+        @keyframes twinkle {
+            from { background-position: 0 0; }
+            to { background-position: 10000px 5000px; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==========================================================================
+           1. LOGIN PORTAL
+           ========================================================================== */
+        #login-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: rgba(15, 5, 30, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.4), inset 0 0 15px rgba(224, 170, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 350px;
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: var(--magic-glow);
+            text-shadow: 0 0 10px var(--magic-purple);
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--magic-purple);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .role-btn.active, .role-btn:hover {
+            background: var(--magic-purple);
+            box-shadow: 0 0 15px var(--magic-glow);
+            transform: scale(1.05);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--magic-glow);
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--magic-glow);
+            box-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #7b2cbf, #9d4edd);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(123, 44, 191, 0.4);
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 0 25px var(--magic-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           2. GALAXY & SYSTEM VIEW
+           ========================================================================== */
+        #universe-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            z-index: 5;
+        }
+
+        .milky-way-view {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .galaxy-trigger {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(157,78,221,0.6) 30%, rgba(60,9,108,0.3) 60%, transparent 70%);
+            box-shadow: 0 0 60px rgba(224,170,255,0.4);
+            cursor: pointer;
+            position: relative;
+            animation: spin 30s linear infinite;
+            transition: transform 0.5s;
+        }
+
+        .galaxy-trigger:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 80px rgba(224,170,255,0.8);
+        }
+
+        .galaxy-trigger::before {
+            content: 'CLICK TO ZOOM INTO GALAXY';
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 8px #000;
+            font-size: 0.9rem;
+            animation: anti-spin 30s linear infinite;
+        }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes anti-spin { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        /* Solar System Grid View */
+        .solar-system-view {
+            padding: 100px 20px 400px 20px; /* Space on bottom so panel won't block elements */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .system-map {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin-top: 40px;
+        }
+
+        .sun {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #fff 0%, #ff9e00 50%, #ff6200 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #ff9e00;
+            flex-shrink: 0;
+        }
+
+        /* Planets Structural Base */
+        .planet-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            width: 100px;
+        }
+
+        .planet-container:hover, .planet-container.selected {
+            transform: scale(1.1);
+            background: rgba(157, 78, 221, 0.15);
+            border-color: var(--magic-purple);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        }
+
+        .planet {
+            border-radius: 50%;
+            margin-bottom: 12px;
+            box-shadow: inset -8px -8px 12px rgba(0,0,0,0.7);
+            flex-shrink: 0;
+        }
+
+        /* All 8 Planet Rendering Styling */
+        .mercury { width: 25px; height: 25px; background: radial-gradient(circle at 30% 30%, #b5a89e, #8c8279, #4a443f); }
+        .venus { width: 40px; height: 40px; background: radial-gradient(circle at 30% 30%, #e39e52, #b86b19, #613303); }
+        .earth { width: 45px; height: 45px; background: radial-gradient(circle at 30% 30%, #4cc9f0, #4895ef, #3f37c9); box-shadow: 0 0 12px rgba(76,201,240,0.4), inset -8px -8px 12px rgba(0,0,0,0.7); }
+        .mars { width: 35px; height: 35px; background: radial-gradient(circle at 30% 30%, #f77f00, #d62828, #780000); }
+        .jupiter { width: 75px; height: 75px; background: repeating-linear-gradient(45deg, #eae2b7, #e85d04 12%, #f77f00 24%, #eae2b7 36%); }
+        .saturn { width: 60px; height: 60px; background: radial-gradient(circle at 30% 30%, #e9d8a6, #ee9b00); position: relative; }
+        .saturn::after {
+            content: '';
+            position: absolute;
+            top: 45%; left: 50%;
+            width: 95px; height: 12px;
+            border: 3px solid rgba(233, 216, 166, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+        }
+        .uranus { width: 50px; height: 50px; background: radial-gradient(circle at 30% 30%, #b8f2e6, #70d6ff, #277da1); }
+        .neptune { width: 48px; height: 48px; background: radial-gradient(circle at 30% 30%, #48cae4, #0077b6, #03045e); }
+
+        .planet-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--magic-glow);
+            text-align: center;
+        }
+
+        .user-greeting {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.07);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--magic-purple);
+            backdrop-filter: blur(5
